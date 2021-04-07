@@ -4,12 +4,13 @@ See LICENSE folder for this sample’s licensing information.
 Abstract:
 A view controller that facilitates the primary Nearby-Interaction user experience.
 */
-
+import AVFoundation
 import UIKit
 import NearbyInteraction
 import MultipeerConnectivity
 
-class ViewController: UIViewController, NISessionDelegate {
+class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate {
+ 
 
     // MARK: - IBOutlets
     @IBOutlet weak var monkeyLabel: UILabel!
@@ -25,6 +26,7 @@ class ViewController: UIViewController, NISessionDelegate {
     @IBOutlet weak var detailUpArrow: UIImageView!
     @IBOutlet weak var detailAngleInfoView: UIView!
 
+    
     // MARK: - Distance and direction state
     let nearbyDistanceThreshold: Float = 0.3 // meters
 
@@ -41,7 +43,8 @@ class ViewController: UIViewController, NISessionDelegate {
     var connectedPeer: MCPeerID?
     var sharedTokenWithPeer = false
     var peerDisplayName: String?
-
+    var audioPlayer: AVAudioPlayer! = nil
+ 
     // MARK: - UI LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +52,8 @@ class ViewController: UIViewController, NISessionDelegate {
         monkeyLabel.text = "🙈"
         centerInformationLabel.alpha = 1.0
         detailContainer.alpha = 0.0
-        
+      
+
         // Start the NISessions
         startup()
     }
@@ -57,7 +61,7 @@ class ViewController: UIViewController, NISessionDelegate {
     func startup() {
         // Create the NISession.
         session = NISession()
-        
+
         // Set the delegate.
         session?.delegate = self
         
@@ -256,10 +260,12 @@ class ViewController: UIViewController, NISessionDelegate {
         let directionAvailable = nearbyObject.direction != nil
 
         if isNearby && directionAvailable {
+
             return .closeUpInFOV
         }
 
         if !isNearby && directionAvailable {
+
             return .notCloseUpInFOV
         }
 
@@ -279,6 +285,7 @@ class ViewController: UIViewController, NISessionDelegate {
             monkeyLabel.alpha = 1.0
             centerInformationLabel.alpha = 0.0
             detailContainer.alpha = 1.0
+            
         }
         
         if nextState == .unknown {
@@ -294,13 +301,25 @@ class ViewController: UIViewController, NISessionDelegate {
         }
         
         // Update the monkey label based on the next state.
+        // can play music here based on the location?
+        // based on the rotation and distance, adjust the audio volume
         switch nextState {
         case .closeUpInFOV:
             monkeyLabel.text = "🙉"
+            playMusic(filename: "footsteps")
+//            stopMusic(filename: "trumpet")
+
+            // make sounds
         case .notCloseUpInFOV:
             monkeyLabel.text = "🙈"
+            playMusic(filename: "trumpet")
+
+//            stopMusic(filename: "footsteps")
+            // why does it only take one sound?
         case .outOfFOV:
             monkeyLabel.text = "🙊"
+
+
         case .unknown:
             monkeyLabel.text = ""
         }
@@ -372,4 +391,37 @@ class ViewController: UIViewController, NISessionDelegate {
             self.centerInformationLabel.text = description
         })
     }
+    
+    
+    func playMusic(filename: String){
+        
+        let pathToSound = Bundle.main.path(forResource:filename, ofType: "mp3")!
+        let url = URL.init(fileURLWithPath: pathToSound)
+        do{
+            audioPlayer = try AVAudioPlayer(contentsOf:url)
+            audioPlayer.prepareToPlay()
+            audioPlayer.delegate = self
+            audioPlayer.play()
+        }
+        catch{
+            //error handling
+            print(error)
+        }
+    
+    }
+    
+//    func stopMusic(filename: String){
+//
+//        let pathToSound = Bundle.main.path(forResource:filename, ofType: "mp3")!
+//        let url = URL.init(fileURLWithPath: pathToSound)
+//        do{
+//            audioPlayer = try AVAudioPlayer(contentsOf:url)
+//            audioPlayer.stop();
+//        }
+//        catch{
+//            //error handling
+//            print(error)
+//        }
+//
+//    }
 }
