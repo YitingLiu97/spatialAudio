@@ -8,10 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		0A7C6E61248C5CEE00DEC871 /* MathUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A7C6E60248C5CEE00DEC871 /* MathUtilities.swift */; };
+		1B3968602640A000005B6D9A /* tiger.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B39685F2640A000005B6D9A /* tiger.mp3 */; };
 		1B6482A22618B175008F1D7C /* SimulatorsList.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1B6482A12618B175008F1D7C /* SimulatorsList.txt */; };
 		1B6482A42618B3AB008F1D7C /* multipleSimulatorsStartup.sh in Resources */ = {isa = PBXBuildFile; fileRef = 1B6482A32618B3AB008F1D7C /* multipleSimulatorsStartup.sh */; };
 		1B6482B42618CE0F008F1D7C /* trumpet.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B6482B32618CE0F008F1D7C /* trumpet.mp3 */; };
-		1B85D8162618E379004EE51C /* footsteps.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 1B85D8152618E379004EE51C /* footsteps.mp3 */; };
 		71418B3224949358007DAB1C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 71418B3124949358007DAB1C /* README.md */; };
 		AD026E6B248E77B10016A2B6 /* MPCSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD026E6A248E77B10016A2B6 /* MPCSession.swift */; };
 		AD026E6E248E77F60016A2B6 /* MultipeerConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD026E6D248E77F60016A2B6 /* MultipeerConnectivity.framework */; };
@@ -38,11 +38,10 @@
 
 /* Begin PBXFileReference section */
 		0A7C6E60248C5CEE00DEC871 /* MathUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathUtilities.swift; sourceTree = "<group>"; };
+		1B39685F2640A000005B6D9A /* tiger.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tiger.mp3; sourceTree = "<group>"; };
 		1B6482A12618B175008F1D7C /* SimulatorsList.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = SimulatorsList.txt; sourceTree = "<group>"; };
 		1B6482A32618B3AB008F1D7C /* multipleSimulatorsStartup.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = multipleSimulatorsStartup.sh; sourceTree = "<group>"; };
 		1B6482B32618CE0F008F1D7C /* trumpet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = trumpet.mp3; sourceTree = "<group>"; };
-		1B85D8132618E01B004EE51C /* trumpet.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = trumpet.mp3; path = ../../../trumpet.mp3; sourceTree = "<group>"; };
-		1B85D8152618E379004EE51C /* footsteps.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = footsteps.mp3; sourceTree = "<group>"; };
 		43D6B566D60E1D86FC1BA04C /* SampleCode.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = SampleCode.xcconfig; path = Configuration/SampleCode.xcconfig; sourceTree = "<group>"; };
 		62C8A7F1105E38E9FB343714 /* LICENSE.txt */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		71418B3124949358007DAB1C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -81,8 +80,7 @@
 		1B85D8102618D05B004EE51C /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				1B85D8152618E379004EE51C /* footsteps.mp3 */,
-				1B85D8132618E01B004EE51C /* trumpet.mp3 */,
+				1B39685F2640A000005B6D9A /* tiger.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -224,12 +222,12 @@
 			files = (
 				1B6482B42618CE0F008F1D7C /* trumpet.mp3 in Resources */,
 				ADDB290A24897F7E00F72056 /* LaunchScreen.storyboard in Resources */,
-				1B85D8162618E379004EE51C /* footsteps.mp3 in Resources */,
 				ADDB290724897F7E00F72056 /* Assets.xcassets in Resources */,
 				1B6482A22618B175008F1D7C /* SimulatorsList.txt in Resources */,
 				1B6482A42618B3AB008F1D7C /* multipleSimulatorsStartup.sh in Resources */,
 				71418B3224949358007DAB1C /* README.md in Resources */,
 				ADDB290524897F7D00F72056 /* Main.storyboard in Resources */,
+				1B3968602640A000005B6D9A /* tiger.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,7 +413,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9SM4RQTJR9;
 				INFOPLIST_FILE = NIPeekaboo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -439,7 +437,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 9SM4RQTJR9;
 				INFOPLIST_FILE = NIPeekaboo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

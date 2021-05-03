@@ -8,6 +8,21 @@ import AVFoundation
 import UIKit
 import NearbyInteraction
 import MultipeerConnectivity
+import MediaPlayer
+
+//Update system volume
+extension MPVolumeView {
+    static func setVolume(_ volume: Float) {
+        let volumeView = MPVolumeView()
+        let slider = volumeView.subviews.first(where: { $0 is UISlider }) as? UISlider
+
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.01) {
+            slider?.value = volume
+        }
+    }
+}
+
+
 
 class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate {
  
@@ -28,7 +43,7 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
 
     
     // MARK: - Distance and direction state
-    let nearbyDistanceThreshold: Float = 0.3 // meters
+    let nearbyDistanceThreshold: Float = 0.8 // meters
 
     enum DistanceDirectionState {
         case closeUpInFOV, notCloseUpInFOV, outOfFOV, unknown
@@ -59,6 +74,7 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
     }
 
     func startup() {
+
         // Create the NISession.
         session = NISession()
 
@@ -240,8 +256,11 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
 
         // Run the session
         session?.run(config)
+        playMusic(filename: "tiger")
+
     }
 
+    
     // MARK: - Visualizations
     func isNearby(_ distance: Float) -> Bool {
         return distance < nearbyDistanceThreshold
@@ -305,27 +324,30 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
         // based on the rotation and distance, adjust the audio volume
         switch nextState {
         case .closeUpInFOV:
-            monkeyLabel.text = "🙉"
-            playMusic(filename: "footsteps")
-//            stopMusic(filename: "trumpet")
+            monkeyLabel.text = "🐯"
 
             // make sounds
         case .notCloseUpInFOV:
-            monkeyLabel.text = "🙈"
-            playMusic(filename: "trumpet")
-
-//            stopMusic(filename: "footsteps")
-            // why does it only take one sound?
+            monkeyLabel.text = "🐯"
+            
         case .outOfFOV:
-            monkeyLabel.text = "🙊"
+            monkeyLabel.text = "🐯"
 
 
         case .unknown:
-            monkeyLabel.text = ""
+            monkeyLabel.text = "_"
         }
-        
+
+    
+        //float outgoing =  start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
         if peer.distance != nil {
-            detailDistanceLabel.text = String(format: "%0.2f m", peer.distance!)
+//            let mappedVol = clamp(peer.distance,0.5,1)
+//            playMusic(filename: "footsteps",vol: mappedVol)
+
+             detailDistanceLabel.text = String(format: "%0.2f m", peer.distance!)
+            print(String(format: "%0.2f m", peer.distance!))
+            
+            MPVolumeView.setVolume(Float(1) - peer.distance!)//do so cuz it is reverse
         }
         
         monkeyLabel.transform = CGAffineTransform(rotationAngle: CGFloat(azimuth ?? 0.0))
@@ -392,8 +414,27 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
         })
     }
     
-    
     func playMusic(filename: String){
+        
+        let pathToSound = Bundle.main.path(forResource: filename, ofType: "mp3")!
+        let url = URL.init(fileURLWithPath: pathToSound)
+        do{
+            audioPlayer = try AVAudioPlayer(contentsOf:url)
+            audioPlayer.prepareToPlay()
+            audioPlayer.delegate = self
+            audioPlayer.play()
+            audioPlayer.numberOfLoops = 2
+
+
+        }
+        catch{
+            //error handling
+            print(error)
+        }
+    
+    }
+    /**
+    func playMusic(filename: String, vol: Float){
         
         let pathToSound = Bundle.main.path(forResource:filename, ofType: "mp3")!
         let url = URL.init(fileURLWithPath: pathToSound)
@@ -402,6 +443,8 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
             audioPlayer.prepareToPlay()
             audioPlayer.delegate = self
             audioPlayer.play()
+            audioPlayer?.volume = vol
+
         }
         catch{
             //error handling
@@ -409,19 +452,22 @@ class ViewController: UIViewController, NISessionDelegate,AVAudioPlayerDelegate 
         }
     
     }
+     */
+
     
-//    func stopMusic(filename: String){
-//
-//        let pathToSound = Bundle.main.path(forResource:filename, ofType: "mp3")!
-//        let url = URL.init(fileURLWithPath: pathToSound)
-//        do{
-//            audioPlayer = try AVAudioPlayer(contentsOf:url)
-//            audioPlayer.stop();
-//        }
-//        catch{
-//            //error handling
-//            print(error)
-//        }
-//
-//    }
+    func stopMusic(filename: String){
+
+        let pathToSound = Bundle.main.path(forResource:filename, ofType: "mp3")!
+        let url = URL.init(fileURLWithPath: pathToSound)
+        do{
+            audioPlayer = try AVAudioPlayer(contentsOf:url)
+            audioPlayer.stop();
+        }
+        catch{
+            //error handling
+            print(error)
+        }
+
+    }
+
 }
